@@ -2,9 +2,9 @@ import { useState, useEffect, useCallback } from "react";
 
 // ─── CONFIG ──────────────────────────────────────────────────────────────────
 
-const SUPABASE_URL = "https://wquxsxqhbktscseybxpm.supabase.co";
-const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndxdXhzeHFoYmt0c2NzZXlieHBtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc2MDgxOTcsImV4cCI6MjA5MzE4NDE5N30.bLNu4-JANarKtxXG2V-uy_EU-bsKyXAQKqKEISsQQfE";
-const RAZORPAY_KEY_ID = "rzp_test_Sk2ZA018TXWG86";
+const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
+const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
+const RAZORPAY_KEY_ID = import.meta.env.VITE_RAZORPAY_KEY_ID;
 
 // ─── CONSTANTS ───────────────────────────────────────────────────────────────
 
