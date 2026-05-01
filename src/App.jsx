@@ -149,41 +149,69 @@ export default function App() {
   const [activeTab, setActiveTab] = useState("cases");
 
   useEffect(() => {
-    // Handle magic link redirect
+  useEffect(() => {
     const hash = window.location.hash;
-    if (hash && hash.includes("access_token")) {
-      const params = new URLSearchParams(hash.replace("#", "?"));
-      const accessToken = params.get("access_token");
-      if (accessToken) {
-        fetch(`${SUPABASE_URL}/auth/v1/user`, {
-          headers: {
-            apikey: SUPABASE_ANON_KEY,
-            Authorization: `Bearer ${accessToken}`,
-          },
+    const query = window.location.search;
+
+    // Handle magic link redirect (hash or query param)
+    const params = hash
+      ? new URLSearchParams(hash.replace("#", "?"))
+      : new URLSearchParams(query);
+
+    const accessToken = params.get("access_token");
+
+    if (accessToken) {
+      fetch(`${SUPABASE_URL}/auth/v1/user`, {
+        headers: {
+          apikey: SUPABASE_ANON_KEY,
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+        .then(res => {
+          if (!res.ok) throw new Error("Auth failed");
+          return res.json();
         })
-          .then(res => res.json())
-          .then(async user => {
-            const students = await supabase(
-              "students", "GET", null,
-              `?email=eq.${encodeURIComponent(user.email)}`
-            );
-            if (students && students.length > 0) {
-              const s = students[0];
-              localStorage.setItem("abdm_student", JSON.stringify(s));
-              setStudent(s);
-              setScreen("home");
-            } else {
-              setEmail(user.email);
-              setScreen("register");
-            }
-          })
-          .catch(() => {
-            showMsg("Login failed. Please try again.", true);
-            setScreen("login");
-          });
-        return;
+        .then(async user => {
+          if (!user.email) throw new Error("No email");
+          const students = await supabase(
+            "students", "GET", null,
+            `?email=eq.${encodeURIComponent(user.email)}`
+          );
+          window.history.replaceState({}, "", "/");
+          if (students && students.length > 0) {
+            const s = students[0];
+            localStorage.setItem("abdm_student", JSON.stringify(s));
+            setStudent(s);
+            setScreen("home");
+          } else {
+            setEmail(user.email);
+            setScreen("register");
+          }
+        })
+        .catch((e) => {
+          console.error("Login error:", e);
+          showMsg("Login failed. Please try again.", true);
+          setScreen("login");
+        });
+      return;
+    }
+
+    // Normal localStorage check
+    const saved = localStorage.getItem("abdm_student");
+    if (saved) {
+      try {
+        const s = JSON.parse(saved);
+        if (s && s.id && s.email) {
+          setStudent(s);
+          setScreen("home");
+          return;
+        }
+      } catch {
+        localStorage.removeItem("abdm_student");
       }
     }
+    setTimeout(() => setScreen("login"), 2000);
+  }, []);
 
     // Normal localStorage check
     const saved = localStorage.getItem("abdm_student");
