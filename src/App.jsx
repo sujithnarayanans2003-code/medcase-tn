@@ -170,7 +170,7 @@ export default function App() {
   if (saved) {
     try {
       const s = JSON.parse(saved);
-      if (s && s.id && s.email) {
+      if (s && s.full_name) {
         setStudent(s);
         setScreen("home");
         return;
