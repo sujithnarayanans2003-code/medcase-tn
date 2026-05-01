@@ -148,7 +148,7 @@ export default function App() {
   const [filterWard, setFilterWard] = useState("");
   const [activeTab, setActiveTab] = useState("cases");
 
-  useEffect(() => {
+  
   useEffect(() => {
     const hash = window.location.hash;
     const query = window.location.search;
