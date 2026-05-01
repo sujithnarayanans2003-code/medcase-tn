@@ -166,21 +166,24 @@ export default function App() {
   const [activeTab, setActiveTab] = useState("cases");
 
   useEffect(() => {
-    setTimeout(() => {
-      const saved = localStorage.getItem("abdm_student");
-      if (saved) {
-        try {
-          const s = JSON.parse(saved);
-          setStudent(s);
-          setScreen("home");
-        } catch {
-          setScreen("login");
-        }
-      } else {
-        setScreen("login");
+  const saved = localStorage.getItem("abdm_student");
+  if (saved) {
+    try {
+      const s = JSON.parse(saved);
+      if (s && s.id && s.email) {
+        setStudent(s);
+        setScreen("home");
+        return;
       }
-    }, 2000);
-  }, []);
+    } catch {
+      localStorage.removeItem("abdm_student");
+    }
+  }
+  setTimeout(() => {
+    setScreen("login");
+  }, 2000);
+}, []);
+       
 
   const showMsg = (msg, isError = false) => {
     if (isError) { setError(msg); setTimeout(() => setError(""), 5000); }
