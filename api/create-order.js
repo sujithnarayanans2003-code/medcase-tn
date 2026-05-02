@@ -1,9 +1,7 @@
 // api/create-order.js
-// Vercel serverless function — creates a Razorpay order server-side
+const Razorpay = require("razorpay");
 
-import Razorpay from "razorpay";
-
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
   if (req.method !== "POST") {
     return res.status(405).json({ message: "Method not allowed" });
   }
@@ -14,7 +12,7 @@ export default async function handler(req, res) {
       key_secret: process.env.RAZORPAY_SECRET,
     });
 
-    const { amount = 3000 } = req.body; // amount in paise (3000 = ₹30)
+    const amount = req.body?.amount || 3000; // 3000 paise = ₹30
 
     const order = await razorpay.orders.create({
       amount,
@@ -27,5 +25,6 @@ export default async function handler(req, res) {
     console.error("create-order error:", e);
     return res.status(500).json({ message: e.message || "Order creation failed" });
   }
-}
+};
+
 
