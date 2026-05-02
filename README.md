@@ -152,3 +152,40 @@ If you find this useful:
 
 - Star the repository ⭐
 - Share with other medical students
+- 💡 Why this project?
+
+This project was built to address the lack of accessible, structured clinical case discussions among medical students while ensuring responsible usage through a secure credit-based system.
+
+It combines:
+
+- 🔐 Secure system design (RLS, atomic transactions)
+- 🧠 Fraud detection & prevention (rate limits, graph-based multi-account detection)
+- ⚙️ Scalable backend logic using Supabase RPC
+- 📊 Data-driven insights through analytics and leaderboards
+
+The focus is not just on building features, but on designing a system that can:
+
+- Prevent misuse and abuse
+- Scale with increasing users
+- Maintain fairness in content access
+
+---
+
+🚀 Vision
+
+The long-term goal is to evolve this into a full-fledged learning platform for medical students by adding:
+
+- 🤖 AI-based case quality evaluation
+- 📈 Admin moderation dashboard
+- 🔗 Visual fraud graph analysis
+- 🌐 Wider adoption across institutions
+
+---
+
+⭐ Support
+
+If you find this project useful:
+
+- Star the repository ⭐
+- Share with other medical students
+- Contribute ideas or improvements
